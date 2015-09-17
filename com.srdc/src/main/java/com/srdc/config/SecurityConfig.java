@@ -14,11 +14,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
 		
-		auth.inMemoryAuthentication().withUser("admin").password("admin");
+		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests().and().formLogin();
+		http
+			.authorizeRequests()
+				.anyRequest().authenticated()
+				.and()
+				.formLogin();
 	}
 }
